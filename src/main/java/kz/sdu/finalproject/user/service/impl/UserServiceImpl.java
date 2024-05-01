@@ -91,6 +91,13 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
+    public UserEntity getUserByName(String name) {
+        return repository.findUserEntityByUsername(name)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
     public UserDetails loadUserByUsername(String username) {
         return repository.findUserEntityByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not exits"));

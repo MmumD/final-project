@@ -29,4 +29,15 @@ create table if not exists products(
     name varchar(255) not null,
     gender varchar(255) not null default 'UNISEX',
     price double precision not null
-)
+);
+
+create table if not exists orders(
+    id bigserial primary key not null,
+    created_at timestamp Not null default now(),
+    user_id BIGINT NOT NULL references users(id)
+);
+
+create table if not exists orders_products(
+    order_id bigint not null references orders(id),
+    product_id bigint not null references products(id)
+);

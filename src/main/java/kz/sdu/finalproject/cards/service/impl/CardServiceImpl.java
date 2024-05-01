@@ -9,7 +9,7 @@ import kz.sdu.finalproject.cards.repository.CardRepository;
 import kz.sdu.finalproject.cards.service.CardService;
 import kz.sdu.finalproject.core.exceptions.BadRequestException;
 import kz.sdu.finalproject.user.entity.UserEntity;
-import kz.sdu.finalproject.user.repository.UserRepository;
+import kz.sdu.finalproject.user.service.UserService;
 import kz.sdu.finalproject.user.util.GetUsername;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class CardServiceImpl implements CardService {
 
     private final CardRepository cardRepository;
 
-    private final UserRepository userRepository;
+    private final UserService service;
 
     @Transactional
     @Override
@@ -55,8 +55,7 @@ public class CardServiceImpl implements CardService {
 
         entity.setType(cardType(request.getNumber()));
 
-        UserEntity user = userRepository.findUserEntityByUsername(getUsername.getUsername(token))
-                .orElseThrow(() -> new BadRequestException("User not found"));
+        UserEntity user = service.getUserByName(getUsername.getUsername(token));
 
         entity.setUser(user);
 
@@ -68,8 +67,7 @@ public class CardServiceImpl implements CardService {
     @Transactional(readOnly = true)
     @Override
     public List<CardView> getUserCards(String token) {
-        UserEntity user = userRepository.findUserEntityByUsername(getUsername.getUsername(token))
-                .orElseThrow(() -> new BadRequestException("User not found"));
+        UserEntity user = service.getUserByName(getUsername.getUsername(token));
 
         return cardRepository.findCardEntitiesByUser(user)
                 .map(CardMapper.INSTANCE::toView)

@@ -54,4 +54,10 @@ public class ProductServiceImpl implements ProductService {
         return repository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Product not found"));
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public boolean productExists(Long id) {
+        return repository.existsById(id);
+    }
 }
