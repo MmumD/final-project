@@ -15,8 +15,6 @@ public class GetUsername {
 
         final String[] values = credentials.split(":", 2);
 
-        System.out.println(values[0]);
-
         return values[0];
     }
 

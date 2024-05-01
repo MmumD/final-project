@@ -20,3 +20,13 @@ create table if not exists cards(
     cvv VARCHAR(3) NOT NULL,
     user_id BIGINT NOT NULL references users(id)
 );
+
+create table if not exists products(
+    id bigserial primary key not null,
+    created_at timestamp Not null default now(),
+    updated_at timestamp,
+    type varchar(255) not null default 'SHOES',
+    name varchar(255) not null,
+    gender varchar(255) not null default 'UNISEX',
+    price double precision not null
+)
