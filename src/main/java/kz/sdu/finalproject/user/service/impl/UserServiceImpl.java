@@ -6,6 +6,7 @@ import kz.sdu.finalproject.user.dto.UserCreateRequest;
 import kz.sdu.finalproject.user.dto.UserUpdateRequest;
 import kz.sdu.finalproject.user.dto.UserView;
 import kz.sdu.finalproject.user.entity.UserEntity;
+import kz.sdu.finalproject.user.enums.UserRoles;
 import kz.sdu.finalproject.user.mapper.UserMapper;
 import kz.sdu.finalproject.user.repository.UserRepository;
 import kz.sdu.finalproject.user.service.UserService;
@@ -94,6 +95,18 @@ public class UserServiceImpl implements UserService {
     public UserEntity getUserByName(String name) {
         return repository.findUserEntityByUsername(name)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
+    }
+
+    @Transactional
+    @Override
+    public boolean updateRole(String token) {
+        UserEntity user = getUserByName(getUsername.getUsername(token));
+        
+        user.setRole(UserRoles.ROLE_ADMIN);
+
+        repository.save(user);
+
+        return true;
     }
 
     @Transactional(readOnly = true)

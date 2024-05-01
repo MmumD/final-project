@@ -20,4 +20,6 @@ public interface UserService extends UserDetailsService {
 
     UserEntity getUserByName(String name);
 
+    boolean updateRole(String token);
+
 }

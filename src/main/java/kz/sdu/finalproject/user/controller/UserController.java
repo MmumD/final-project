@@ -15,9 +15,15 @@ public class UserController {
     private final UserService service;
 
     @PostMapping("/register")
-    private ResponseEntity<Boolean> registerUser(@RequestBody UserCreateRequest request){
+    public ResponseEntity<Boolean> registerUser(@RequestBody UserCreateRequest request){
         return ResponseEntity.ok(service.registerUser(request));
     }
+
+    @PutMapping("/update/role")
+    public ResponseEntity<Boolean> updateRole(@RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(service.updateRole(token));
+    }
+
 
     @PutMapping("/update")
     public ResponseEntity<Boolean> updatePassword(@RequestHeader("Authorization") String token, @RequestBody UserUpdateRequest request){
