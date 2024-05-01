@@ -8,3 +8,15 @@ create table if not exists users(
     password varchar(255) not null,
     role varchar(255) not null DEFAULT 'ROLE_USER'
 );
+
+create table if not exists cards(
+    id bigserial primary key not null,
+    created_at timestamp Not null default now(),
+    updated_at timestamp,
+    type varchar(255) not null,
+    number VARCHAR(20) NOT NULL UNIQUE,
+    expiration_month VARCHAR(2) NOT NULL,
+    expiration_year VARCHAR(2) NOT NULL,
+    cvv VARCHAR(3) NOT NULL,
+    user_id BIGINT NOT NULL references users(id)
+);
